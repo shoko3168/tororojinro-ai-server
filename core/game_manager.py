@@ -8,23 +8,21 @@ class GameManager:
     def __init__(self):
         self.db = FirestoreClient()
         self.agents = {}
-        self.joined_villages = []
+        self.joined_villages = {}
         self.players = {}
         self.load_from_firestore()
         self.load_jinro_api()
 
     def load_jinro_api(self):
-        new_joined_vilages = []
+        new_joined_vilages = {}
         # joined_villagesにある分だけ村情報を取得
         for village_id in self.joined_villages:
             vil = JinroAPI.get_vil(vid=village_id)
-            # print(vil['vid'])
-            # print(vil['state'])
-            # print(vil['players'])
             has_bot = self.load_agent_players(vil)
             if has_bot:
-                new_joined_vilages.append(village_id)
+                new_joined_vilages[village_id] = True
         self.db.set_document("game_manager_settings", "joined_villages", {"joined_villages": new_joined_vilages})
+        self.joined_villages = new_joined_vilages
 
     def load_agent_players(self, vil):
         has_bot = False
@@ -40,7 +38,7 @@ class GameManager:
         if settings and "joined_villages" in settings:
             self.joined_villages = settings["joined_villages"]
         else:
-            self.joined_villages = []
+            self.joined_villages = {}
 
     def load_agents(self):
         agent_data = self.db.get_all_documents("agents")
