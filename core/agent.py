@@ -1,8 +1,10 @@
 class Agent:
-    def __init__(self, user_id: str, name: str, personality: str, role=None):
-        self.user_id = user_id
+    def __init__(self, userid: str, name: str, pid, personality: str):
+        self.userid = userid
         self.name = name
+        self.pid = pid
         self.personality = personality  # 例: "疑い深い", "楽天家"
+        self.first_message = f"こんにちは、{name}です。よろしくお願いします！"
 
     def act(self, context_summary: str, timing: str):
         # f"{self.name}（{self.personality}）は「{context_summary}」について考え中です。"
@@ -26,3 +28,12 @@ class Agent:
             "action": "none",
             "target": None
         }
+
+    @staticmethod
+    def from_dict(data: dict):
+        return Agent(
+            userid=data.get("userid", ""),
+            name=data.get("name", ""),
+            pid=data.get("pid", ""),
+            personality=data.get("personality", ""),
+        )
