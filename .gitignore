@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# VSCode
+.vscode/
+.copilot
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env & credentials
+.env
+*.env
+*.env.*
+
+# Logs
+*.log
+
+# Test & coverage
+.coverage
+htmlcov/
+.tox/
+
+# Node
+node_modules/
+package-lock.json
+
+# Misc
+*.swp
+*.swo
